@@ -57,6 +57,8 @@ func NewRemote(endpoint string) (*Remote, error) {
 		outgoing: make(chan Syncer, 10),
 		ws:       ws,
 	}
+	
+	r.ws.SetPongHandler(func(string) error { r.ws.SetReadDeadline(time.Now().Add(pongWait)); return nil })
 
 	go r.run()
 	return r, nil
@@ -513,7 +515,7 @@ func (r *Remote) Fee() (*FeeResult, error) {
 // Expects to receive PONGs at specified interval, or logs an error and returns.
 func (r *Remote) readPump(inbound chan<- []byte) {
 	r.ws.SetReadDeadline(time.Now().Add(pongWait))
-	r.ws.SetPongHandler(func(string) error { r.ws.SetReadDeadline(time.Now().Add(pongWait)); return nil })
+
 	for {
 		_, message, err := r.ws.ReadMessage()
 		if err != nil {
