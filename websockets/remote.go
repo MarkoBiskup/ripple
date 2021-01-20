@@ -3,7 +3,6 @@ package websockets
 import (
 	"bytes"
 	"encoding/hex"
-	"encoding/json"
 	"fmt"
 	"net"
 	"net/url"

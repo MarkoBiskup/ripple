@@ -1,7 +1,6 @@
 package websockets
 
 import (
-	"encoding/json"
 	"fmt"
 	"sync/atomic"
 
@@ -136,6 +135,7 @@ type SubmitResult struct {
 	EngineResultMessage string                 `json:"engine_result_message"`
 	TxBlob              string                 `json:"tx_blob"`
 	Tx                  interface{}            `json:"tx_json"`
+	Accepted            bool                   `json:"accepted"`
 }
 
 type LedgerCommand struct {
