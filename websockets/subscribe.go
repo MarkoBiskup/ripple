@@ -1,10 +1,11 @@
 package websockets
 
 import (
-	"encoding/json"
-
+	jsoniter "github.com/json-iterator/go"
 	"github.com/markobiskup/ripple/data"
 )
+
+var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 // Fields from subscribed ledger stream messages
 type LedgerStreamMsg struct {
