@@ -3,7 +3,6 @@ package websockets
 import (
 	"bytes"
 	"encoding/hex"
-	"encoding/json"
 	"fmt"
 	"net"
 	"net/url"
@@ -13,6 +12,7 @@ import (
 
 	"github.com/golang/glog"
 	"github.com/gorilla/websocket"
+	jsoniter "github.com/json-iterator/go"
 	"github.com/markobiskup/ripple/data"
 )
 
@@ -35,6 +35,8 @@ type Remote struct {
 	outgoing chan Syncer
 	ws       *websocket.Conn
 }
+
+var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 // NewRemote returns a new remote session connected to the specified
 // server endpoint URI. To close the connection, use Close().

@@ -1,8 +1,6 @@
 package data
 
 import (
-	"encoding/json"
-
 	internal "github.com/markobiskup/ripple/testing"
 	. "gopkg.in/check.v1"
 )

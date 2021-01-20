@@ -5,12 +5,15 @@ package data
 import (
 	"bytes"
 	"encoding/hex"
-	"encoding/json"
 	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
+
+	jsoniter "github.com/json-iterator/go"
 )
+
+var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 type ledgerJSON Ledger
 
@@ -60,8 +63,8 @@ func (txm *TransactionWithMetaData) UnmarshalJSON(b []byte) error {
 		// Transaction has the form {"tx":{}, "meta":{}, "validated": true}
 		// i.e. returned from `account_tx` command.
 		var split struct {
-			Tx   json.RawMessage
-			Meta json.RawMessage
+			Tx   jsoniter.RawMessage
+			Meta jsoniter.RawMessage
 		}
 		if err := json.Unmarshal(b, &split); err != nil {
 			return err
@@ -141,7 +144,7 @@ func (txm TransactionWithMetaData) MarshalJSON() ([]byte, error) {
 const txmSliceFormat = `%s,"hash":"%s","metaData":%s}`
 
 func (s TransactionSlice) MarshalJSON() ([]byte, error) {
-	raw := make([]json.RawMessage, len(s))
+	raw := make([]jsoniter.RawMessage, len(s))
 	var err error
 	var tx, meta []byte
 	for i, txm := range s {
@@ -149,7 +152,7 @@ func (s TransactionSlice) MarshalJSON() ([]byte, error) {
 			return nil, err
 		}
 		extra := fmt.Sprintf(txmSliceFormat, string(tx[:len(tx)-1]), txm.GetHash().String(), meta)
-		raw[i] = json.RawMessage(extra)
+		raw[i] = jsoniter.RawMessage(extra)
 	}
 	return json.Marshal(raw)
 }
@@ -160,7 +163,7 @@ var (
 )
 
 func (l *LedgerEntrySlice) UnmarshalJSON(b []byte) error {
-	var s []json.RawMessage
+	var s []jsoniter.RawMessage
 	if err := json.Unmarshal(b, &s); err != nil {
 		return err
 	}
