@@ -1,12 +1,14 @@
 package websockets
 
 import (
-	"encoding/json"
 	"fmt"
 	"sync/atomic"
 
+	jsoniter "github.com/json-iterator/go"
 	"github.com/markobiskup/ripple/data"
 )
+
+var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 var counter uint64
 
