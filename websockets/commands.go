@@ -1,7 +1,6 @@
 package websockets
 
 import (
-	"encoding/json"
 	"fmt"
 	"sync/atomic"
 
