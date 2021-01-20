@@ -1,10 +1,11 @@
 package data
 
 import (
-	"encoding/json"
 	"fmt"
 	"hash/crc32"
 	"strings"
+
+	jsoniter "github.com/json-iterator/go"
 )
 
 type pathEntry uint8
@@ -18,6 +19,8 @@ const (
 	PATH_CURRENCY pathEntry = 0x10
 	PATH_ISSUER   pathEntry = 0x20
 )
+
+var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 // PathElem represents one link in a path.
 type PathElem struct {

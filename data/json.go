@@ -5,12 +5,15 @@ package data
 import (
 	"bytes"
 	"encoding/hex"
-	"encoding/json"
 	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
+
+	jsoniter "github.com/json-iterator/go"
 )
+
+var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 type ledgerJSON Ledger
 

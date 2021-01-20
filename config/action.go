@@ -2,13 +2,15 @@
 package config
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
 
+	jsoniter "github.com/json-iterator/go"
 	"github.com/markobiskup/ripple/data"
 	"github.com/markobiskup/ripple/websockets"
 )
+
+var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 type Action struct {
 	Seed         data.Seed
