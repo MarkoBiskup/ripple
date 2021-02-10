@@ -148,6 +148,7 @@ func (r *Remote) run() {
 			}
 			delete(pending, response.Id)
 			if err := json.Unmarshal(in, &cmd); err != nil {
+				cmd.Fail(err.Error())
 				glog.Errorln(err.Error())
 				continue
 			}
