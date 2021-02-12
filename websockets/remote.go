@@ -82,18 +82,24 @@ func (r *Remote) run() {
 	pending := make(map[uint64]Syncer)
 
 	defer func() {
+		glog.Errorln("Exiting run")
+		glog.Errorln("Closing outbount")
 		close(outbound) // Shuts down the writePump
+		glog.Errorln("Closing r.Incoming")
 		close(r.Incoming)
 
 		// Cancel all pending commands with an error
+		glog.Errorln("Cancelling pending")
 		for _, c := range pending {
 			c.Fail("Connection Closed")
 		}
 
 		// Drain the inbound channel and block until it is closed,
 		// indicating that the readPump has returned.
+		glog.Errorln("Blocking inbound")
 		for _ = range inbound {
 		}
+		glog.Errorln("Exiting complete")
 	}()
 
 	// Spawn read/write goroutines
