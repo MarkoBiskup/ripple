@@ -94,6 +94,10 @@ func (r *Remote) run() {
 			c.Fail("Connection Closed")
 		}
 
+		for c := range r.outgoing {
+			c.Fail("Connection Closed")
+		}
+
 		// Drain the inbound channel and block until it is closed,
 		// indicating that the readPump has returned.
 		glog.Errorln("Blocking inbound")
@@ -559,6 +563,7 @@ func (r *Remote) writePump(outbound <-chan interface{}) {
 			}
 
 			glog.V(2).Infoln(dump(b))
+			r.ws.SetWriteDeadline(time.Now().Add(pongWait))
 			if err := r.ws.WriteMessage(websocket.TextMessage, b); err != nil {
 				glog.Errorln(err)
 				return
